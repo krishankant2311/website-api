@@ -25,7 +25,7 @@ export const contactUs = async (req, res) => {
     }
 
     // Admin email (jahan notification aani hai)
-    const adminEmail = "moh-ind24@moh.gov.iq";
+    const adminEmail = "abhinandan@jewarinternational.com";
 
     const subject = "📩 New Contact Us Inquiry - ARAQ Embassy Website";
 
