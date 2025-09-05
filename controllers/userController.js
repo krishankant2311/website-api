@@ -1,32 +1,20 @@
 // controllers/contactController.js
-// const sendEmail = require("../mailSender/nodemailer");
 import sendEmail from "../mailSender/nodemailer.js";
+
 export const contactUs = async (req, res) => {
-  const { fullName, email, phone, message, hospitalDetails,attachments,serviceType } = req.body;
+  const { fullName, email, phone, message, hospitalDetails } = req.body;
+  console.log("req.file:", req.file);
+  console.log("req.body:", req.body);
 
   try {
-    if (!fullName) {
+    if (!fullName || !email || !message) {
       return res.status(400).json({
         success: false,
-        message: "Full name is required",
-      });
-    }
-    if (!email) {
-      return res.status(400).json({
-        success: false,
-        message: "Email is required",
-      });
-    }
-    if (!message) {
-      return res.status(400).json({
-        success: false,
-        message: "Message is required",
+        message: "Full name, email & message are required",
       });
     }
 
-    // Admin email (jahan notification aani hai)
-    const adminEmail = "abhinandan@jewarinternational.com";
-
+    const adminEmail = "krishankant@jewarinternational.com";
     const subject = "📩 New Contact Us Inquiry - ARAQ Embassy Website";
 
     const html = `
@@ -34,7 +22,6 @@ export const contactUs = async (req, res) => {
       <p><strong>Name:</strong> ${fullName}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-      <p><strong>serviceType:</strong> ${serviceType || "Not provided"}</p>
       <p><strong>Hospital Details:</strong> ${hospitalDetails || "Not provided"}</p>
       <p><strong>Message:</strong></p>
       <p>${message}</p>
@@ -42,25 +29,37 @@ export const contactUs = async (req, res) => {
       <p>Sent from ARAQ Embassy Website</p>
     `;
 
-    // Agar koi document upload hua hai
-    let fileAttachments = [];
-   if (req.file) {
-  attachments.push({
-    filename: req.file.originalname,
-    content: req.file.buffer, // ab buffer se file jayegi
-  });
-}
+    let attachments = [];
+    if (req.file) {
+      attachments.push({
+        filename: req.file.originalname,
+        content: req.file.buffer, // buffer se bhej rahe hain
+      });
+    }
 
-
-    const emailSent = await sendEmail(subject, adminEmail, html, fileAttachments);
-
+    const emailSent = await sendEmail(subject, adminEmail, html, attachments);
 
     res.status(200).json({
       success: true,
       message: "Contact request submitted successfully",
       info: emailSent,
+      sentData: {
+        fullName,
+        email,
+        phone,
+        hospitalDetails,
+        message,
+        attachment: req.file
+          ? {
+              filename: req.file.originalname,
+              mimetype: req.file.mimetype,
+              size: req.file.size,
+            }
+          : null,
+      },
     });
   } catch (error) {
+    console.error("❌ Contact error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to send contact form",

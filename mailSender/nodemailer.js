@@ -12,7 +12,7 @@ const transport = nodemailer.createTransport({
   },
 });
 
-const sendEmail = async (sub, to, html) => {
+const sendEmail = async (sub, to, html,attachments = []) => {
   try {
     const mailOptions = {
       from: {
@@ -22,6 +22,7 @@ const sendEmail = async (sub, to, html) => {
       subject: sub,
       to,
       html,
+      attachments,
     };
 
     transport.verify((error, success) => {
