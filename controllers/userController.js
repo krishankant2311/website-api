@@ -2,7 +2,7 @@
 // const sendEmail = require("../mailSender/nodemailer");
 import sendEmail from "../mailSender/nodemailer.js";
 export const contactUs = async (req, res) => {
-  const { fullName, email, phone, message, hospitalDetails,attachments } = req.body;
+  const { fullName, email, phone, message, hospitalDetails,attachments,serviceType } = req.body;
 
   try {
     if (!fullName) {
@@ -34,6 +34,7 @@ export const contactUs = async (req, res) => {
       <p><strong>Name:</strong> ${fullName}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
+      <p><strong>serviceType:</strong> ${serviceType || "Not provided"}</p>
       <p><strong>Hospital Details:</strong> ${hospitalDetails || "Not provided"}</p>
       <p><strong>Message:</strong></p>
       <p>${message}</p>
