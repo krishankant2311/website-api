@@ -2,7 +2,7 @@
 // const sendEmail = require("../mailSender/nodemailer");
 import sendEmail from "../mailSender/nodemailer.js";
 export const contactUs = async (req, res) => {
-  const { fullName, email, phone, message, hospitalDetails,attachmentName } = req.body;
+  const { fullName, email, phone, message, hospitalDetails,attachments } = req.body;
 
   try {
     if (!fullName) {
@@ -42,15 +42,16 @@ export const contactUs = async (req, res) => {
     `;
 
     // Agar koi document upload hua hai
-    let attachments = [];
+    let fileAttachments = [];
     if (req.file) {
-      attachments.push({
-        filename: attachmentName || req.file.originalname, // ✅ attachment name variable use
+      fileAttachments.push({
+        filename: attachments || req.file.originalname, // ✅ agar text diya h to use karega, warna file ka naam
         path: req.file.path,
       });
     }
-    // Send email with attachment
-    const emailSent = await sendEmail(subject, adminEmail, html, attachments);
+
+    const emailSent = await sendEmail(subject, adminEmail, html, fileAttachments);
+
 
     res.status(200).json({
       success: true,
