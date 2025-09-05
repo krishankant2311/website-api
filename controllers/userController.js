@@ -44,12 +44,13 @@ export const contactUs = async (req, res) => {
 
     // Agar koi document upload hua hai
     let fileAttachments = [];
-    if (req.file) {
-      fileAttachments.push({
-        filename: attachments || req.file.originalname, // ✅ agar text diya h to use karega, warna file ka naam
-        path: req.file.path,
-      });
-    }
+   if (req.file) {
+  attachments.push({
+    filename: req.file.originalname,
+    content: req.file.buffer, // ab buffer se file jayegi
+  });
+}
+
 
     const emailSent = await sendEmail(subject, adminEmail, html, fileAttachments);
 
