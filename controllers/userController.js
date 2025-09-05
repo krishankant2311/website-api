@@ -14,7 +14,7 @@ export const contactUs = async (req, res) => {
       });
     }
 
-    const adminEmail = "krishankant@jewarinternational.com";
+    const adminEmail = "moh-ind24@moh.gov.iq";
     const subject = "📩 New Contact Us Inquiry - ARAQ Embassy Website";
 
     const html = `
