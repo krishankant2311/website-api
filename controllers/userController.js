@@ -23,6 +23,8 @@ export const contactUs = async (req, res) => {
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
       <p><strong>Hospital Details:</strong> ${hospitalDetails || "Not provided"}</p>
+      <p><strong>Service Type:</strong> ${serviceType || "Not provided"}</p>
+      <p><strong>Urgency:</strong> ${urgency || "Not provided"}</p>
       <p><strong>Message:</strong></p>
       <p>${message}</p>
       <hr/>
