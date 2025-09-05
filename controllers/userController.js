@@ -2,7 +2,7 @@
 // const sendEmail = require("../mailSender/nodemailer");
 import sendEmail from "../mailSender/nodemailer.js";
 export const contactUs = async (req, res) => {
-  const { fullName, email, phone, message, hospitalDetails } = req.body;
+  const { fullName, email, phone, message, hospitalDetails,attachmentName } = req.body;
 
   try {
     if (!fullName) {
@@ -45,11 +45,10 @@ export const contactUs = async (req, res) => {
     let attachments = [];
     if (req.file) {
       attachments.push({
-        filename: req.file.originalname,
+        filename: attachmentName || req.file.originalname, // ✅ attachment name variable use
         path: req.file.path,
       });
     }
-
     // Send email with attachment
     const emailSent = await sendEmail(subject, adminEmail, html, attachments);
 
