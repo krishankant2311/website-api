@@ -5,6 +5,6 @@ import { contactUs } from "../controllers/userController.js";
 const router = express.Router();
 
 // Contact us route
-router.post("/contact", upload.single("document"), contactUs);
+router.post("/contact", upload.single("attachments"), contactUs);
 
 export default router;
