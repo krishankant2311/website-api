@@ -2,7 +2,7 @@
 import sendEmail from "../mailSender/nodemailer.js";
 
 export const contactUs = async (req, res) => {
-  const { fullName, email, phone, message, hospitalDetails } = req.body;
+  const { fullName, email, phone, message, hospitalDetails,serviceType,urgency} = req.body;
   console.log("req.file:", req.file);
   console.log("req.body:", req.body);
 
